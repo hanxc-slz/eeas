@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imnu.eeas.dao.CensusMapper" >
+  <resultMap id="BaseResultMap" type="com.imnu.eeas.pojo.Census" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="count_all" property="countAll" jdbcType="DOUBLE" />
+    <result column="front_date" property="frontDate" jdbcType="DATE" />
+    <result column="after_date" property="afterDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, u_id, count_all, front_date, after_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imnu.eeas.pojo.exemple.CensusExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from census
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from census
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from census
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imnu.eeas.pojo.exemple.CensusExample" >
+    delete from census
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imnu.eeas.pojo.Census" >
+    insert into census (id, u_id, count_all,
+      front_date, after_date)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{countAll,jdbcType=DOUBLE},
+      #{frontDate,jdbcType=DATE}, #{afterDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imnu.eeas.pojo.Census" >
+    insert into census
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="countAll != null" >
+        count_all,
+      </if>
+      <if test="frontDate != null" >
+        front_date,
+      </if>
+      <if test="afterDate != null" >
+        after_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="countAll != null" >
+        #{countAll,jdbcType=DOUBLE},
+      </if>
+      <if test="frontDate != null" >
+        #{frontDate,jdbcType=DATE},
+      </if>
+      <if test="afterDate != null" >
+        #{afterDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imnu.eeas.pojo.exemple.CensusExample" resultType="java.lang.Integer" >
+    select count(*) from census
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update census
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uId != null" >
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.countAll != null" >
+        count_all = #{record.countAll,jdbcType=DOUBLE},
+      </if>
+      <if test="record.frontDate != null" >
+        front_date = #{record.frontDate,jdbcType=DATE},
+      </if>
+      <if test="record.afterDate != null" >
+        after_date = #{record.afterDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update census
+    set id = #{record.id,jdbcType=INTEGER},
+      u_id = #{record.uId,jdbcType=INTEGER},
+      count_all = #{record.countAll,jdbcType=DOUBLE},
+      front_date = #{record.frontDate,jdbcType=DATE},
+      after_date = #{record.afterDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imnu.eeas.pojo.Census" >
+    update census
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="countAll != null" >
+        count_all = #{countAll,jdbcType=DOUBLE},
+      </if>
+      <if test="frontDate != null" >
+        front_date = #{frontDate,jdbcType=DATE},
+      </if>
+      <if test="afterDate != null" >
+        after_date = #{afterDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imnu.eeas.pojo.Census" >
+    update census
+    set u_id = #{uId,jdbcType=INTEGER},
+      count_all = #{countAll,jdbcType=DOUBLE},
+      front_date = #{frontDate,jdbcType=DATE},
+      after_date = #{afterDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
